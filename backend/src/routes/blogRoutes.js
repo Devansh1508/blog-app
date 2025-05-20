@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const blogController = require('../controllers/blogController');
+const authenticate = require('../middlewares/auth');
 
 // Route to save a draft
 router.post('/draft', blogController.saveDraft);

@@ -30,8 +30,10 @@ export default function SimpleCard({onModalClose}) {
   const toast = useToast();
 
   const handleAddPost = data => {
+    const user=localStorage.getItem("user");
+    const userId=JSON.parse(user)._id;
     addPost({
-      uid: user.id,
+      uid: userId,
       title: data.title,
       desc: data.desc,
       imageUrl: data.imageUrl,

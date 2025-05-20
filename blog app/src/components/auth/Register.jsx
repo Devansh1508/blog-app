@@ -14,9 +14,10 @@ import {
   FormErrorMessage,
   Tooltip,
 } from "@chakra-ui/react";
-import {LOGIN, ROOT} from "../../lib/routes";
+import {LOGIN} from "../../lib/routes";
 import {Link as routerLink} from "react-router-dom";
 import {useForm} from "react-hook-form";
+import {ROOT} from "../../lib/routes";
 import {
   usernameValidate,
   passwordValidate,
@@ -25,25 +26,21 @@ import {
 import {useRegister} from "../../hooks/auths";
 
 export default function Register() {
-  // const {register: signup, isLoading} = useRegister();
+  const {signUp, isLoading} = useRegister();
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm();
 
-  // async function handleRegister(data) {
-  //   signup({
-  //     username: data.username,
-  //     email: data.email,
-  //     password: data.password,
-  //     redirectTo: ROOT,
-  //   });
-  // }
-
-  const handleRegister = async (data) => {
-    console.log("Register data", data);
+  async function handleRegister(data) {
+    signUp({
+      email: data.email,
+      password: data.password,
+      redirectTo: ROOT,
+    });
   }
+
 
   const ladelBtn = "Don' t be a stranger, sign up!";
   return (
@@ -70,18 +67,6 @@ export default function Register() {
         >
           <form onSubmit={handleSubmit(handleRegister)}>
             <Stack spacing={4}>
-              <FormControl id='username' isInvalid={errors.username}>
-                <FormLabel>UserName</FormLabel>
-                <Input
-                  type='text'
-                  placeholder='username'
-                  {...register("username", usernameValidate)}
-                />
-                <FormErrorMessage>
-                  {errors.username && errors.username.message}
-                </FormErrorMessage>
-              </FormControl>
-
               <FormControl id='email' isInvalid={errors.email}>
                 <FormLabel>Email address</FormLabel>
                 <Input

@@ -1,22 +1,20 @@
 import { useToast } from "@chakra-ui/react";
-// import { uuidv4 } from "@firebase/util";
-// import { arrayRemove, arrayUnion, collection, deleteDoc, doc, orderBy, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { useState } from "react";
-// import { db } from "../lib/firebase";
-// import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore'
 export function useAddPost() {
     const [isLoading, setLoading] = useState(false);
     const toast = useToast();
 
     async function addPost(post) {
+        const response = await fetch('http://localhost:3000/api/blogs/publish', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(post),
+        });
+
+
         setLoading(true);
-        // const id = uuidv4();
-        // await setDoc(doc(db, "posts", id), {
-        //     ...post,
-        //     id,
-        //     date: Date.now(),
-        //     likes: [],
-        // });
         toast({
             title: "Post added successfully!",
             status: "success",
@@ -31,17 +29,25 @@ export function useAddPost() {
 }
 
 
-export function usePosts(uid = null) {
-    // const q = uid
-    //     ? query(
-    //         collection(db, "posts"),
-    //         orderBy("date", "desc"),
-    //         where("uid", "==", uid)
-    //     )
-    //     : query(collection(db, "posts"), orderBy("date", "desc"));
-    // const [posts, isLoading, error] = useCollectionData(q);
-    // if (error) throw error;
-    // return { posts, isLoading };
+export const getBlogs=async ()=> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.log("No token found");
+        return;
+    }
+    const response = await fetch('http://localhost:3000/api/blogs',{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    }); // Replace with your server URL
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
 }
 
 export function useToggleLike({ id, isLiked, uid }) {
@@ -87,3 +93,24 @@ export function useDeletePost(id) {
 
     return { deletePost, isLoading };
 }
+
+
+export const getBlogById = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.log("No token found");
+        return;
+    }
+    const response = await fetch(`http://localhost:3000/api/blogs/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+};

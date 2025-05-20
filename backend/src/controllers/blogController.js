@@ -22,12 +22,14 @@ exports.saveDraft = async (req, res) => {
 // Publish a blog
 exports.publishBlog = async (req, res) => {
     try {
-        const { id } = req.params;
-        const blog = await Blog.findByIdAndUpdate(id, { status: 'published', updated_at: new Date() }, { new: true });
-        if (!blog) {
-            return res.status(404).json({ message: 'Blog not found' });
-        }
-        res.status(200).json({ message: 'Blog published successfully', blog });
+        const { uid, title, desc, imageUrl } = req.body;
+        const blog = await Blog.create({
+            userId: uid,
+            title,
+            desc,
+            imageUrl,
+        });
+        res.status(201).json({ message: 'Blog published successfully', blog });
     } catch (error) {
         res.status(500).json({ message: 'Error publishing blog', error });
     }
@@ -37,6 +39,7 @@ exports.publishBlog = async (req, res) => {
 exports.getAllBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find();
+        console.log("hello");
         res.status(200).json(blogs);
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving blogs', error });
@@ -51,8 +54,10 @@ exports.getBlogById = async (req, res) => {
         if (!blog) {
             return res.status(404).json({ message: 'Blog not found' });
         }
+        console.log(blog)
         res.status(200).json(blog);
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving blog', error });
     }
 };
+

@@ -11,13 +11,30 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import {motion, LayoutGroup} from "framer-motion";
-import React from "react";
-import {usePosts} from "../../hooks/posts";
+import React, { useEffect } from "react";
+import {getBlogs} from "../../hooks/posts";
 import SinglePost from "../posts/SinglePost";
 import {useUser} from "../../hooks/user";
+import {useState} from "react";
+import { set } from "date-fns";
+
 export default function PostList() {
-  const {posts, isLoading} = usePosts();
+  const [isLoading, setLoading] = useState(false);
+  const [posts, setPosts] = useState([]);
   // const {user, isLoading: userLoading} = useUser();
+  async function fetchPosts() {
+    setLoading(true);
+    const posts = await getBlogs();
+    console.log(posts);
+    setPosts(posts);
+    setLoading(false);
+    return posts;
+  }
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   if (isLoading)
     return (
       <Box pos='absolute' top='50%' left='50%'>
@@ -35,9 +52,9 @@ export default function PostList() {
         templateColumns='repeat(auto-fill, minmax(300px, 2fr))'
         gap={6}
         marginTop='5'
-      >
-        {posts.map(post => (
-          <GridItem key={post.id}>
+        >
+        {posts.map((post) => (
+          <GridItem key={post._id}>
             <motion.div layout>
               <SinglePost post={post} />
             </motion.div>

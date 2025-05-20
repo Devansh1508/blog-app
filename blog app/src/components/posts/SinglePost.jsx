@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Heading,
@@ -14,22 +14,23 @@ import {formatDistanceToNow} from "date-fns";
 import {AiTwotoneHeart, AiOutlineHeart, AiFillDelete} from "react-icons/ai";
 import {useDeletePost, useToggleLike} from "../../hooks/posts";
 import {Link as routerLink} from "react-router-dom";
-import {useUser} from "../../hooks/user";
+
 
 const SinglePost = ({post}) => {
   const {user, isLoading: authLoading} = useAuth();
   const {id, likes, uid} = post;
-  const isLiked = likes.includes(user?.id);
+  const isLiked =false;
+  // const [isLoading,setIsLoading] = React.useState(false);
   const {toggleLike, isLoading} = useToggleLike({
     id,
     isLiked,
-    uid: user?.id,
+    uid: user?._id,
   });
   const {deletePost, isLoading: deleteLoading} = useDeletePost(id);
-  const {user: users, isLoading: userLoading} = useUser(uid);
+  const users=localStorage.getItem("user");
   return (
     <>
-      <Box w='100%' key={post.id}>
+      <Box w='100%' key={post._id}>
         <Box borderRadius='lg' overflow='hidden'>
           <Link textDecoration='none' _hover={{textDecoration: "none"}}>
             <Image
@@ -51,7 +52,7 @@ const SinglePost = ({post}) => {
             textDecoration='none'
             _hover={{textDecoration: "none"}}
             as={routerLink}
-            to={`/posts/${post?.id}`}
+            to={`/posts/${post?._id}`}
           >
             {post.title}
           </Link>
@@ -64,7 +65,7 @@ const SinglePost = ({post}) => {
             <Avatar name={users?.username} size={"sm"} />
             <Text casing={"capitalize"}>
               <span style={{paddingLeft: "10px"}}>
-                {formatDistanceToNow(post.date)} ago
+                {formatDistanceToNow(new Date(post.created_at))} ago
               </span>
             </Text>
             <IconButton
@@ -76,7 +77,7 @@ const SinglePost = ({post}) => {
               isRound
               variant='ghost'
             />
-            <Text> {likes.length}</Text>
+            {/* <Text> {likes.length}</Text> */}
             {!authLoading && user?.id === uid && (
               <IconButton
                 colorScheme='red'
