@@ -23,7 +23,7 @@ export default function Footer() {
         justify={{base: "center", md: "space-between"}}
         align={{base: "center", md: "center"}}
       >
-        <Text>© 2023 Arslan Sarfraz.</Text>
+        <Text>© 2025 Devansh Pratap</Text>
         <Stack direction={"row"} spacing={6}>
           <chakra.button
             bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
@@ -32,7 +32,7 @@ export default function Footer() {
             h={8}
             cursor={"pointer"}
             as={"a"}
-            href={"https://github.com/arslansarfraz"}
+            href={"https://github.com/Devansh1508/blog-app"}
             display={"inline-flex"}
             alignItems={"center"}
             justifyContent={"center"}

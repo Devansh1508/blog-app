@@ -25,21 +25,26 @@ import {
 import {useRegister} from "../../hooks/auths";
 
 export default function Register() {
-  const {register: signup, isLoading} = useRegister();
+  // const {register: signup, isLoading} = useRegister();
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm();
 
-  async function handleRegister(data) {
-    signup({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      redirectTo: ROOT,
-    });
+  // async function handleRegister(data) {
+  //   signup({
+  //     username: data.username,
+  //     email: data.email,
+  //     password: data.password,
+  //     redirectTo: ROOT,
+  //   });
+  // }
+
+  const handleRegister = async (data) => {
+    console.log("Register data", data);
   }
+
   const ladelBtn = "Don' t be a stranger, sign up!";
   return (
     <Flex

@@ -20,10 +20,12 @@ import {REGISTER, ROOT} from "../../lib/routes";
 import {Link as routerLink} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {emailValidate, passwordValidate} from "../../utils/form-validation";
-import {useLogin} from "../../hooks/auths";
+
+// import {useLogin} from "../../hooks/auths";
 export default function Login() {
   const [show, setShow] = useState(false);
-  const {login, isLoading} = useLogin();
+  // const {login, isLoading} = useLogin();
+  const [isLoading, setLoading] = useState(false);
 
   const {
     register,
@@ -32,14 +34,19 @@ export default function Login() {
     formState: {errors},
   } = useForm();
 
-  async function handleLogin(data) {
-    const succeeded = await login({
-      email: data.email,
-      password: data.password,
-      redirectTo: ROOT,
-    });
-    if (succeeded) reset();
+  // async function handleLogin(data) {
+  //   const succeeded = await login({
+  //     email: data.email,
+  //     password: data.password,
+  //     redirectTo: ROOT,
+  //   });
+  //   if (succeeded) reset();
+  // }
+
+  const handleLogin = async (data) => {
+    console.log("Login data", data);
   }
+
   const handleClick = () => setShow(!show);
   return (
     <Flex

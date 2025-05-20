@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import {motion} from "framer-motion";
 import {Link as routerLink, useParams} from "react-router-dom";
-import {db} from "../../lib/firebase";
-import {doc, onSnapshot} from "firebase/firestore";
+// import {db} from "../../lib/firebase";
+// import {doc, onSnapshot} from "firebase/firestore";
 import {AiOutlineRollback} from "react-icons/ai";
 import {ROOT} from "../../lib/routes";
 import Navbar from "./Navbar";
@@ -22,11 +22,11 @@ import Navbar from "./Navbar";
 export default function CurrentPost() {
   const {postId} = useParams();
   const [currentPost, setCurrentPost] = useState([]);
-  useEffect(() => {
-    onSnapshot(doc(db, "posts", postId), snapshot => {
-      setCurrentPost({...snapshot.data(), id: snapshot.id});
-    });
-  }, []);
+  // useEffect(() => {
+  //   onSnapshot(doc(db, "posts", postId), snapshot => {
+  //     setCurrentPost({...snapshot.data(), id: snapshot.id});
+  //   });
+  // }, []);
 
   console.log(currentPost);
   return (

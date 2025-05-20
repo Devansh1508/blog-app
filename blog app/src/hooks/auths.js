@@ -1,40 +1,40 @@
-import {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
-import { auth, db } from "../lib/firebase";
+// import {
+//     signInWithEmailAndPassword,
+//     createUserWithEmailAndPassword,
+// } from "firebase/auth";
+// import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+// import { auth, db } from "../lib/firebase";
 import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+// import { setDoc, doc, getDoc } from "firebase/firestore";
 import { LOGIN, ROOT } from "../lib/routes";
 import isUsernameExists from "../utils/isUsernameExists";
 
 
 // This code is for fatching User data
 export function useAuth() {
-    const [authUser, authLoading, error] = useAuthState(auth);
+    // const [authUser, authLoading, error] = useAuthState(auth);
     const [isLoading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
 
     useEffect(() => {
         async function fetchData() {
-            setLoading(true);
-            const ref = doc(db, "users", authUser.uid);
-            const docSnap = await getDoc(ref);
-            setUser(docSnap.data());
-            setLoading(false);
+            // setLoading(true);
+            // const ref = doc(db, "users", authUser.uid);
+            // const docSnap = await getDoc(ref);
+            // setUser(docSnap.data());
+            // setLoading(false);
         }
 
-        if (!authLoading) {
-            if (authUser) fetchData();
-            else setLoading(false); // Not signed in
-        }
-    }, [authLoading]);
+        // if (!authLoading) {
+        //     if (authUser) fetchData();
+        //     else setLoading(false); // Not signed in
+        // }
+    },);
 
-    return { user, isLoading, error };
+    return { user, isLoading, };
 }
 
 // This code is for Login functionlity
@@ -47,7 +47,7 @@ export function useLogin() {
         setLoading(true);
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            // await signInWithEmailAndPassword(auth, email, password);
             toast({
                 title: "You are logged in",
                 status: "success",
@@ -76,21 +76,21 @@ export function useLogin() {
 
 // This code is for logout functionlity 
 export function useLogout() {
-    const [signOut, isLoading, error] = useSignOut(auth);
+    // const [signOut, isLoading, error] = useSignOut(auth);
     const toast = useToast();
     const navigate = useNavigate();
 
     async function logout() {
-        if (await signOut()) {
-            toast({
-                title: "Successfully logged out",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 5000,
-            });
-            navigate(LOGIN);
-        }
+        // if (await signOut()) {
+        //     toast({
+        //         title: "Successfully logged out",
+        //         status: "success",
+        //         isClosable: true,
+        //         position: "top",
+        //         duration: 5000,
+        //     });
+        //     navigate(LOGIN);
+        // }
         // else {
         //     toast({
         //         title: "Having difficulty to logging out of you ",
@@ -101,7 +101,7 @@ export function useLogout() {
         //     });
     }
 
-    return { logout, isLoading };
+    return { logout};
 }
 
 // This code is for user register functionlity
@@ -131,14 +131,14 @@ export function useRegister() {
             setLoading(false);
         } else {
             try {
-                const res = await createUserWithEmailAndPassword(auth, email, password);
+                // const res = await createUserWithEmailAndPassword(auth, email, password);
 
-                await setDoc(doc(db, "users", res.user.uid), {
-                    id: res.user.uid,
-                    username: username.toLowerCase(),
-                    avatar: "",
-                    date: Date.now(),
-                });
+                // await setDoc(doc(db, "users", res.user.uid), {
+                //     id: res.user.uid,
+                //     username: username.toLowerCase(),
+                //     avatar: "",
+                //     date: Date.now(),
+                // });
 
                 toast({
                     title: "Account created",
